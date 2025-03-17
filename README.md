@@ -21,9 +21,6 @@ Une extension Chrome pour gérer et insérer rapidement des snippets de texte av
 - `{time}` - Insérer l'heure actuelle
 - `{tab}` - Insérer une tabulation
 - `{cursor}` - Positionner le curseur
-- `{uppercase:texte}` - Convertir en majuscules
-- `{lowercase:texte}` - Convertir en minuscules
-- `{capitalize:texte}` - Mettre en majuscule la première lettre
 - `{ai:prompt}` - Générer du texte avec l'IA (nécessite une clé API)
 
 ### Commandes dynamiques
@@ -32,11 +29,13 @@ Snippet Local permet d’utiliser des commandes dynamiques.
 
 Exemple de commande dynamique :
 
-- Bonjour `{nom:Entrez votre nom}`, comment allez-vous ?
+- Bonjour `{nom:nom}`,
+votre rendez-vous est le `{jour:jour}` à `{heure:heure}`.
 
-Utilisation : Une boîte de dialogue apparaît demandant "Entrez votre nom"
+Utilisation : Une boîte de dialogue apparaît demandant le nom de la persone, puis une autre le jour du rendez-vous et enfin une dernière l'heure du rendez-vous.
 
-Si vous entrez "Marie" → "Bonjour Marie, comment allez-vous ?"
+Si vous entrez "Jean", "25 mars 2025" et "17h30" → "Bonjour Jean,
+votre rendez-vous est le 25 mars 2025 à 17h30."
 
 ### Commandes dynamiques avancées
 
@@ -47,6 +46,7 @@ Exemple d’imbrication :
 👉 Poser une question à l'IA en indiquant le prompt dans une boîte de dialogue :
 
 - `{ai:[prompt:prompt]}`
+
 Dans cet exemple, l’extension affichera d’abord une boîte de dialogue pour saisir le prompt, puis enverra la requête à l’IA avec le texte saisi.
 
 ## 🚀 Installation
