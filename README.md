@@ -39,7 +39,7 @@ votre rendez-vous est le 25 mars 2025 à 17h30."
 
 ### Commandes dynamiques avancées
 
-Snippet Local permet même  d'imbriquer les commandes dynamiques pour des actions plus complexes. Lorsqu’une vous voulez imbriquée une commande dans une autre, il faut mettre la commande à exécuter en premier entre [ ].
+Snippet Local permet même  d'imbriquer les commandes dynamiques pour des actions plus complexes. Lorsque vous voulez imbriquée une commande dans une autre, il faut mettre la commande à exécuter en premier entre [ ].
 
 Exemple d’imbrication :
 
