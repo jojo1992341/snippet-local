@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snippet Local - Options</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Paramètres Snippet Local</h1>
+      <button id="toggleTheme" class="theme-toggle">🌙</button>
+    </header>
+
+    <section>
+      <h2>Configuration IA</h2>
+      <div class="form-group">
+        <label for="aiProvider">Fournisseur IA:</label>
+        <select id="aiProvider" class="form-select">
+          <option value="openai">OpenAI (GPT-4)</option>
+          <option value="claude">Anthropic (Claude)</option>
+          <option value="deepseek">Deepseek AI</option>
+        </select>
+      </div>
+
+      <div id="openaiConfig" class="provider-config">
+        <div class="form-group">
+          <label for="openaiApiKey">Clé API OpenAI:</label>
+          <input type="password" id="openaiApiKey" placeholder="Entrez votre clé API OpenAI">
+          <button class="btn secondary show-key">👁️</button>
+          <p class="help-text">
+            <a href="https://platform.openai.com" target="_blank">Obtenir une clé API OpenAI</a>
+          </p>
+        </div>
+      </div>
+
+      <div id="claudeConfig" class="provider-config" style="display: none;">
+        <div class="form-group">
+          <label for="claudeApiKey">Clé API Claude:</label>
+          <input type="password" id="claudeApiKey" placeholder="Entrez votre clé API Claude">
+          <button class="btn secondary show-key">👁️</button>
+          <p class="help-text">
+            <a href="https://console.anthropic.com" target="_blank">Obtenir une clé API Claude</a>
+          </p>
+        </div>
+      </div>
+
+      <div id="deepseekConfig" class="provider-config" style="display: none;">
+        <div class="form-group">
+          <label for="deepseekApiKey">Clé API Deepseek:</label>
+          <input type="password" id="deepseekApiKey" placeholder="Entrez votre clé API Deepseek">
+          <button class="btn secondary show-key">👁️</button>
+          <p class="help-text">
+            <a href="https://platform.deepseek.com" target="_blank">Obtenir une clé API Deepseek</a>
+          </p>
+        </div>
+      </div>
+
+      <button id="saveAiConfig" class="btn primary">Enregistrer la configuration</button>
+    </section>
+
+    <section>
+      <h2>Guide d'utilisation</h2>
+      
+      <div class="guide-section">
+        <h3>Variables Personnalisées</h3>
+        <p>Les variables personnalisées sont des valeurs réutilisables que vous pouvez insérer dans n'importe quel snippet.</p>
+        <div class="example-box">
+          <h4>Comment ça marche ?</h4>
+          <ol>
+            <li>Créez une nouvelle variable avec un nom unique (ex: "email")</li>
+            <li>Définissez sa valeur (ex: "contact@example.com")</li>
+            <li>Utilisez la variable dans vos snippets avec la syntaxe : <code>{email}</code></li>
+          </ol>
+          <div class="example">
+            <strong>Exemple :</strong>
+            <pre>Nom de la variable : signature
+Valeur : John Doe, Développeur
+Usage : {signature} → "John Doe, Développeur"</pre>
+          </div>
+        </div>
+      </div>
+
+<div class="guide-section">
+        <h3>Modèles Dynamiques</h3>
+        <p>Les modèles dynamiques vous permettent de créer des snippets interactifs qui demandent des informations à l'utilisateur lors de leur utilisation.</p>
+        <div class="example-box">
+          <h4>Comment ça marche ?</h4>
+          <ol>
+            <li>Dans votre snippet, utilisez la syntaxe <code>{ai:[prompt:Entrez votre prompt]}</code></li>
+            <li>Lors de l'utilisation du snippet, une boîte de dialogue apparaîtra</li>
+            <li>La valeur saisie remplacera le placeholder dans le texte final</li>
+<li>Si vous voulez imbriquer plusieurs commandes utilisez les [ ], ils sont prioritaires</li>
+          </ol>
+          <div class="example">
+            <strong>Exemple 1:</strong>
+<pre>Snippet : Bonjour {nom:Entrez votre nom}, comment allez-vous ?
+Utilisation : Une boîte de dialogue apparaît demandant "Entrez votre nom"
+Si vous entrez "Marie" → "Bonjour Marie, comment allez-vous ?"</pre>
+            <br>
+<strong>Exemple 2:</strong>
+<pre>Snippet : {ai:[prompt:Entrez votre prompt]}
+Utilisation : Une boîte de dialogue apparaît demandant "Entrez votre prompt"
+Si vous avez renseigné une clef api plus l'IA exécutera votre prompt</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Variables Personnalisées</h2>
+      <div id="customVariablesList"></div>
+      <div class="section-actions">
+        <button id="addVariable" class="btn primary">Ajouter une variable</button>
+        <div class="dropdown">
+          <button class="btn secondary">Exporter/Importer</button>
+          <div class="dropdown-content">
+            <button id="exportVariablesLocalBtn" class="dropdown-item">Exporter vers un fichier</button>
+            <button id="importVariablesLocalBtn" class="dropdown-item">Importer depuis un fichier</button>
+          </div>
+        </div>
+      </div>
+      <input type="file" id="importVariablesFile" accept=".json" hidden>
+    </section>
+  </div>
+  <script src="options.js" type="module"></script>
+</body>
+</html>

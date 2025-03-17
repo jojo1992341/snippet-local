@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Snippet Local",
+  "version": "1.0.0",
+  "description": "Manage and insert text snippets locally with keyboard shortcuts",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "commands"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Open Snippet Local popup"
+    }
+  }
+}

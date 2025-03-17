@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snippet Local</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Snippet Local</h1>
+      <button id="toggleTheme" class="theme-toggle">🌙</button>
+    </header>
+
+    <div class="categories">
+      <select id="categorySelect">
+        <option value="">Toutes les catégories</option>
+      </select>
+      <button id="addCategory" class="btn">+ Catégorie</button>
+    </div>
+
+    <div class="snippets">
+      <div class="snippet-list" id="snippetList"></div>
+      <button id="addSnippet" class="btn primary">+ Nouveau Snippet</button>
+    </div>
+
+    <div class="actions">
+      <div class="dropdown">
+        <button class="btn secondary">Exporter/Importer</button>
+        <div class="dropdown-content">
+          <button id="exportLocalBtn" class="dropdown-item">Exporter vers un fichier</button>
+          <button id="importLocalBtn" class="dropdown-item">Importer depuis un fichier</button>
+        </div>
+      </div>
+      <input type="file" id="importFile" accept=".json" hidden>
+    </div>
+  </div>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
