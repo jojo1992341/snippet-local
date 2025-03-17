@@ -243,7 +243,17 @@ async function showSnippetDialog(snippetId = null) {
       <form id="snippetForm">
         <div class="form-group">
           <label for="shortcut">Raccourci:</label>
-          <input type="text" id="shortcut" required value="${snippet?.shortcut || ''}" />
+          <div class="shortcut-input-container">
+            <div class="shortcut-prefix">/</div>
+            <input 
+              type="text" 
+              id="shortcut" 
+              required 
+              value="${snippet?.shortcut ? snippet.shortcut.substring(1) : ''}" 
+              placeholder="exemple"
+            />
+          </div>
+          <div class="help-text">Entrez le raccourci sans le "/" (ex: mail, date)</div>
         </div>
         <div class="form-group">
           <label for="text">Texte:</label>
@@ -259,9 +269,6 @@ async function showSnippetDialog(snippetId = null) {
               <li><code>{time}</code> - Insérer l'heure actuelle</li>
               <li><code>{tab}</code> - Insérer une tabulation</li>
               <li><code>{cursor}</code> - Positionner le curseur</li>
-              <li><code>{uppercase:texte}</code> - Convertir en majuscules</li>
-              <li><code>{lowercase:texte}</code> - Convertir en minuscules</li>
-              <li><code>{capitalize:texte}</code> - Mettre en majuscule la première lettre</li>
               <li><code>{ai:prompt}</code> - Générer du texte avec l'IA (nécessite une clé API)</li>
             </ul>
           </div>
@@ -290,6 +297,38 @@ async function showSnippetDialog(snippetId = null) {
   const form = dialog.querySelector('#snippetForm');
   const cancelBtn = dialog.querySelector('#cancelBtn');
   const openOptionsBtn = dialog.querySelector('#openOptions');
+  const shortcutInput = form.querySelector('#shortcut');
+
+  // Empêcher le collage du "/" dans le champ de raccourci
+  shortcutInput.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+    const cleanedText = pastedText.replace(/^\/+/, ''); // Supprimer les "/" au début
+    const start = shortcutInput.selectionStart;
+    const end = shortcutInput.selectionEnd;
+    const currentValue = shortcutInput.value;
+    shortcutInput.value = currentValue.substring(0, start) + cleanedText + currentValue.substring(end);
+    shortcutInput.selectionStart = shortcutInput.selectionEnd = start + cleanedText.length;
+  });
+
+  // Empêcher la saisie du "/" dans le champ de raccourci
+  shortcutInput.addEventListener('keydown', (e) => {
+    if (e.key === '/') {
+      e.preventDefault();
+    }
+  });
+
+  // Empêcher le glisser-déposer du "/"
+  shortcutInput.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const droppedText = e.dataTransfer.getData('text');
+    const cleanedText = droppedText.replace(/^\/+/, '');
+    const start = shortcutInput.selectionStart;
+    const end = shortcutInput.selectionEnd;
+    const currentValue = shortcutInput.value;
+    shortcutInput.value = currentValue.substring(0, start) + cleanedText + currentValue.substring(end);
+    shortcutInput.selectionStart = shortcutInput.selectionEnd = start + cleanedText.length;
+  });
 
   openOptionsBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -299,9 +338,15 @@ async function showSnippetDialog(snippetId = null) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
+      const shortcutValue = form.shortcut.value.trim();
+      if (!shortcutValue) {
+        showError('Le raccourci ne peut pas être vide');
+        return;
+      }
+
       const newSnippet = {
         id: snippet?.id || crypto.randomUUID(),
-        shortcut: form.shortcut.value.trim(),
+        shortcut: '/' + shortcutValue, // Ajouter le "/" automatiquement
         text: form.text.value,
         category: form.category.value
       };
@@ -326,8 +371,10 @@ async function showSnippetDialog(snippetId = null) {
     }
   });
 
-  form.shortcut.focus();
+  shortcutInput.focus();
 }
+
+// ... (garder le reste du code inchangé)
 
 async function editSnippet(id) {
   await showSnippetDialog(id);

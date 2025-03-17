@@ -311,21 +311,19 @@ export async function handleImportSnippets(event) {
       const response = await handleConflictDialog(conflict.existing, conflict.new);
       
       if (response === 'keep-existing') {
-        // Garder l'existant (ne rien faire)
+        // Garder l'existant en l'ajoutant à la liste des snippets résolus
+        resolvedSnippets.push(conflict.existing);
       } else if (response === 'keep-new') {
         // Remplacer par le nouveau
-        const index = existingSnippets.findIndex(s => s.shortcut === conflict.existing.shortcut);
-        if (index !== -1) {
-          existingSnippets[index] = conflict.new;
-        }
         resolvedSnippets.push(conflict.new);
       }
     }
     
     // Mettre à jour le stockage avec les résultats
-    const updatedSnippets = [...existingSnippets.filter(s => 
-      !conflicts.some(c => c.existing.shortcut === s.shortcut)
-    ), ...resolvedSnippets];
+    const updatedSnippets = [
+      ...existingSnippets.filter(s => !conflicts.some(c => c.existing.shortcut === s.shortcut)),
+      ...resolvedSnippets
+    ];
     
     await chrome.storage.local.set({ snippets: updatedSnippets });
     

@@ -32,17 +32,85 @@ const commandHandlers = {
   'cursor': () => '|', // Placeholder for cursor position
   'ai': async (prompt) => {
     try {
+      // Créer et afficher l'indicateur de chargement
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.className = 'ai-loading-indicator';
+      loadingIndicator.innerHTML = `
+        <div class="ai-loading-content">
+          <div class="ai-loading-spinner"></div>
+          <div class="ai-loading-text">Réflexion en cours...</div>
+        </div>
+      `;
+      document.body.appendChild(loadingIndicator);
+
       const config = await getAIConfig();
       if (!config.selectedProvider || !config[`${config.selectedProvider}ApiKey`]) {
+        loadingIndicator.remove();
         return '[Erreur: Configuration IA non définie. Veuillez configurer une clé API dans les paramètres.]';
       }
-      return await generateAIResponse(prompt, config);
+
+      const response = await generateAIResponse(prompt, config);
+      loadingIndicator.remove();
+      return response;
     } catch (error) {
+      // S'assurer que l'indicateur est supprimé en cas d'erreur
+      const existingIndicator = document.querySelector('.ai-loading-indicator');
+      if (existingIndicator) {
+        existingIndicator.remove();
+      }
       console.error('Error generating AI response:', error);
       return '[Erreur: Impossible de générer une réponse IA. Veuillez réessayer.]';
     }
   }
 };
+
+// Ajouter les styles pour l'indicateur de chargement
+const styles = document.createElement('style');
+styles.textContent = `
+  .ai-loading-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+  }
+
+  .ai-loading-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ai-loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .ai-loading-text {
+    color: #333;
+    font-size: 16px;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+document.head.appendChild(styles);
 
 async function getAIConfig() {
   const result = await chrome.storage.local.get([

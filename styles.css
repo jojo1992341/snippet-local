@@ -691,3 +691,45 @@ code {
   white-space: pre-wrap;
   word-break: break-all;
 }
+
+/* Ajouter ces styles à la fin du fichier styles.css */
+
+.shortcut-input-container {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.shortcut-prefix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: var(--border);
+  color: var(--text);
+  font-family: monospace;
+  font-weight: bold;
+  user-select: none;
+}
+
+.shortcut-input-container input {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  padding: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.shortcut-input-container input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.shortcut-input-container:focus-within {
+  border-color: var(--primary);
+}
