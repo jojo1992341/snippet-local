@@ -26,6 +26,15 @@ Une extension Chrome pour gérer et insérer rapidement des snippets de texte av
 - `{capitalize:texte}` - Mettre en majuscule la première lettre
 - `{ai:prompt}` - Générer du texte avec l'IA (nécessite une clé API)
 
+⚡ Commandes dynamiques avancées
+Snippet Local permet d’utiliser des commandes dynamiques, et même de les imbriquer pour des actions plus complexes. Lorsqu’une commande est imbriquée dans une autre, ce qui est entre crochets est exécuté en priorité.
+
+Exemple d’imbrication :
+👉 Poser une question à l'IA en indiquant le prompt dans une boîte de dialogue :
+
+- `{ai:[prompt:prompt]}`
+Dans cet exemple, l’extension affichera d’abord une boîte de dialogue pour saisir le prompt, puis enverra la requête à l’IA avec le texte saisi.
+
 ## 🚀 Installation
 
 1. Téléchargez ou clonez ce dépôt
