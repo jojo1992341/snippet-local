@@ -148,12 +148,3 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
 4. Push sur la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrir une Pull Request
-
-## 🐛 Signalement de Bugs
-
-Si vous trouvez un bug, merci de créer une issue avec :
-
-- Une description détaillée du problème
-- Les étapes pour reproduire
-- Le comportement attendu
-- Des captures d'écran si possible
